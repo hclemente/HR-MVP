@@ -91,7 +91,7 @@ class SetReminder extends React.Component {
           nextPage='tasks'/>
         <View style={styles.pickerView}>
         <Picker
-          itemStyle={{height: 47, color: '#f7ba72', fontWeight: 'bold', }}
+          itemStyle={{height: 47, color: 'black', fontWeight: 'bold', }}
           prompt='Set a reminder to do my tasks at'
           selectedValue={this.state.currentTime}
           style={styles.picker}
@@ -179,3 +179,5 @@ const styles = StyleSheet.create({
 
   }
 });
+
+// #f7ba72

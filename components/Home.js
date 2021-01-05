@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  StyleSheet, Text, View, TextInput,
+  StyleSheet, Text, View, TextInput, Image,
   Button, TouchableOpacity, ScrollView,
   Keyboard, Platform, TouchableWithoutFeedback
 } from 'react-native';
@@ -49,7 +49,8 @@ class Home extends React.Component {
         // <DismissKeyboard>
         <View style={styles.container}>
         <View style={styles.headerContainer}>
-        <Text style={styles.header}> MyGoalJournal </Text>
+        <Image style={styles.icon} source={require('../assets/logo.png')}/>
+        {/* <Text style={styles.header}> Accountability Journal </Text> */}
         </View>
         <TouchableOpacity
           style={styles.addGoal}
@@ -108,13 +109,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  icon: {
+    height: 200,
+    width: 200
+  },
   headerContainer: {
     width: '75%',
     alignItems: 'center',
     justifyContent: 'center',
   },
   header: {
-    fontSize: 35,
+    fontSize: 26,
+    fontWeight: 'bold',
     marginBottom: 20,
   },
   inputGoals: {

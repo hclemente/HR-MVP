@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
 const EntryItem = (props) => {
   let note = props.entry.note;
-  let maxCharacters = 110;
+  let maxCharacters = 210;
   if (note.length > maxCharacters) {
     note = note.substring(0,maxCharacters) +'...'
   }

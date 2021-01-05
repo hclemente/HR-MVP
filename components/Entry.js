@@ -74,7 +74,7 @@ class Entry extends React.Component {
         <Text>Select A Goal</Text>
         <View style={styles.pickerView}>
         <Picker
-          itemStyle={{height: 47, color: '#f7ba72', fontWeight: 'bold', }}
+          itemStyle={{height: 47, color: 'black', fontWeight: 'bold', }}
           prompt='Select a goal'
           selectedValue={this.state.currentGoal}
           style={styles.picker}
@@ -183,3 +183,5 @@ const styles = StyleSheet.create({
     height: 38
   },
 });
+
+// #f7ba72
