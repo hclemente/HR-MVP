@@ -5,7 +5,7 @@ const Goal = (props) => {
   return (
     <View style={props.selected ? styles.selected : props.styleProp}>
       <Text
-        style={{color: '#3faf9a', fontWeight: 'bold'}}
+        style={{color: '#3faf9a', fontWeight: 'bold', fontSize: 20}}
       >
       {props.goal}
     </Text>

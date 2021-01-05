@@ -20,9 +20,10 @@ class Tasks extends React.Component {
     super (props);
     this.state = {
         inputGoalText: '',
-        goals: [{name: 'Roundhouse'}, {name: 'Switchkick'}, {name: 'Cross'}]
+        goals: this.props.tasks
     }
-    this.addGoal = this.addGoal.bind(this)
+    this.addGoal = this.addGoal.bind(this);
+    this.removeGoal = this.removeGoal.bind(this);
     this.selectGoalToggle = this.selectGoalToggle.bind(this);
     // this.setSelectedValue = this.setSelectedValue.bind(this)
   }
@@ -32,6 +33,12 @@ class Tasks extends React.Component {
     newState.goals.push({name: goal, isSelected: false});
     this.setState(newState);
     newState.inputGoalText = '';
+    this.setState(newState);
+  }
+
+  removeGoal(index) {
+    let newState = Object.assign({}, this.state);
+    newState.goals.splice(index, 1);
     this.setState(newState);
   }
 
@@ -68,18 +75,19 @@ class Tasks extends React.Component {
             Keyboard.dismiss();
           }}
         >
-          <Text
-            style={{color: 'white', fontWeight: 'bold'}}
-          >
+          <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>
             Add Task
           </Text>
         </TouchableOpacity>
+        <Text>Tap to select for push notification</Text>
+        <Text>Press and hold to remove</Text>
         <View style={{height:'45%'}}>
         <ScrollView >
           {this.state.goals.map((goal, index) =>
           <TouchableOpacity
           onPress={()=> this.selectGoalToggle(index)}
           key={index}
+          onLongPress={()=>this.removeGoal(index)}
           >
           <Goal
             styleProp={styles.listGoals}
@@ -94,7 +102,11 @@ class Tasks extends React.Component {
         <NextButton
           styles={styles.nextButton}
           goNext={this.props.goNext}
-          nextPage='goals'
+          updateProp={this.props.updateProp}
+          goals={this.state.goals}
+          prop='tasks'
+          nextPage='setReminder'
+          submit='goalsAndTasks'
         />
 
         </View>
@@ -114,7 +126,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerContainer: {
-    width: '65%',
+    width: '75%',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -167,11 +179,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     textAlignVertical: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   nextButton: {
     position: 'absolute',
     top: '90%',
-    right: Platform.OS === 'ios' ? null : '2%'
   }
 });
