@@ -10,13 +10,13 @@ import BackButton from './BackButton';
 import EntryItem from  './EntryItem'
 import dummyData from './dummyData'
 
-// const rightArrow = '../assets/right_arrow_icon.png';
-// const DismissKeyboard = ({ children }) => (
-//   <TouchableWithoutFeedback
-//   onPress={() => Keyboard.dismiss()}>
-//   {children}
-//   </TouchableWithoutFeedback>
-//   );
+
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback
+  onPress={() => Keyboard.dismiss()}>
+  {children}
+  </TouchableWithoutFeedback>
+  );
 
 class Review extends React.Component {
   constructor (props) {
@@ -25,11 +25,35 @@ class Review extends React.Component {
         inputGoalText: '',
         entries: this.props.entries
     }
+    this.search = this.search.bind(this);
+  }
+
+  search(text) {
+    this.setState({inputGoalText: text})
+  }
+
+  search(text) {
+    let newState = Object.assign({}, this.state);
+    newState.inputGoalText = text;
+    let searched = [];
+
+    if (text !== '') {
+      for (let i = 0; i < this.props.entries.length; i++) {
+        let currentString = this.props.entries[i].goal.toLowerCase();
+        if (currentString.includes(text.toLowerCase())) {
+          searched.push(this.props.entries[i])
+        }
+      }
+      newState.entries = searched;
+    } else {
+      newState.entries = this.props.entries;
+    }
+    this.setState(newState)
   }
 
   render() {
       return (
-        // <DismissKeyboard>
+        <DismissKeyboard>
         <View style={styles.container}>
         <View style={styles.headerContainer}>
         <Text style={styles.header}> My Entries </Text>
@@ -44,7 +68,7 @@ class Review extends React.Component {
           <TextInput
             multiline={true}
             style={styles.inputGoals}
-            onChangeText={(inputGoalText) => { this.setState({inputGoalText})}}
+            onChangeText={(inputGoalText) => { this.search(inputGoalText)}}
             // onSubmitEditing={this.searchSubmit}
             value={this.state.inputGoalText}
             placeholder='Search'
@@ -54,23 +78,27 @@ class Review extends React.Component {
         <View style={{height: Platform.OS === 'ios' ? '80%' : '75%'}}>
         <ScrollView >
           {this.state.entries.map((entry, index) =>
+          { if (entry.goal !== undefined && entry.note !== undefined && entry.date !== undefined && entry.dateLabel !== undefined)
+            return (
+                <TouchableOpacity
+                onLongPress={()=>this.props.removeEntry(index)}
+                key={index}
+              >
 
-          <TouchableOpacity
-            // onPress={()=> this.selectGoalToggle(index)}
-            key={index}
-          >
+              <EntryItem
+                styleProp={styles.listGoals}
+                key={index}
+                entry={entry}
+              />
+              </TouchableOpacity>
+            )
+          }
 
-          <EntryItem
-            styleProp={styles.listGoals}
-            key={index}
-            entry={entry}
-          />
-          </TouchableOpacity>
           )}
         </ScrollView>
         </View>
         </View>
-        // </DismissKeyboard>
+        </DismissKeyboard>
       )
   }
 }

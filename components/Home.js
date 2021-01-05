@@ -19,8 +19,7 @@ class Home extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-        inputGoalText: '',
-        goals: [{name: 'Roundhouse'}, {name: 'Switchkick'}, {name: 'Cross'}]
+        data: this.props.data
     }
     this.addGoal = this.addGoal.bind(this);
     this.selectGoalToggle = this.selectGoalToggle.bind(this);
@@ -73,7 +72,12 @@ class Home extends React.Component {
         <TouchableOpacity
           style={styles.addGoal}
           onPress={() => {
-            this.props.goNext('newEntry')
+            if (this.state.data.goals.length !== 0) {
+              this.props.goNext('newEntry')
+            } else {
+              alert('You must add a goal before you can make an entry')
+            }
+
           }}>
           <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>
             Make A New Entry

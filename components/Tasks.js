@@ -6,14 +6,15 @@ import {
 } from 'react-native';
 import Goal from './Goal'
 import NextButton from './NextButton';
+import BackButton from './BackButton'
 
 // const rightArrow = '../assets/right_arrow_icon.png';
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback
-  onPress={() => Keyboard.dismiss()}>
-  {children}
-  </TouchableWithoutFeedback>
-  );
+// const DismissKeyboard = ({ children }) => (
+//   <TouchableWithoutFeedback
+//   onPress={() => Keyboard.dismiss()}>
+//   {children}
+//   </TouchableWithoutFeedback>
+//   );
 
 class Tasks extends React.Component {
   constructor (props) {
@@ -53,6 +54,12 @@ class Tasks extends React.Component {
   }
 
   render() {
+    let someSelected = false;
+    for (let i = 0; i < this.state.goals.length; i++) {
+      if (this.state.goals[i].selected === true) {
+        someSelected = true;
+      }
+    }
       return (
         // <DismissKeyboard>
         <View style={styles.container}>
@@ -68,10 +75,19 @@ class Tasks extends React.Component {
           value={this.state.inputGoalText}
           placeholder='Write your own task...'
         />
+        <View style={{flexDirection: 'row'}}>
+        <BackButton
+          styles={{marginTop: 13}}
+          goNext={this.props.goNext}
+          nextPage='home'/>
         <TouchableOpacity
           style={styles.addGoal}
           onPress={() => {
-            this.addGoal(this.state.inputGoalText);
+            if (this.state.inputGoalText !== '') {
+              this.addGoal(this.state.inputGoalText);
+            } else {
+              alert('Task cannot be empty!')
+            }
             Keyboard.dismiss();
           }}
         >
@@ -79,6 +95,8 @@ class Tasks extends React.Component {
             Add Task
           </Text>
         </TouchableOpacity>
+        </View>
+
         <Text>Tap to select for push notification</Text>
         <Text>Press and hold to remove</Text>
         <View style={{height:'45%'}}>
@@ -100,6 +118,7 @@ class Tasks extends React.Component {
         </ScrollView>
         </View>
         <NextButton
+          someSelected={someSelected}
           styles={styles.nextButton}
           goNext={this.props.goNext}
           updateProp={this.props.updateProp}
@@ -110,7 +129,7 @@ class Tasks extends React.Component {
         />
 
         </View>
-        // {/* </DismissKeyboard> */}
+        // </DismissKeyboard>
       )
   }
 }

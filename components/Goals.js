@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import Goal from './Goal'
 import NextButton from './NextButton';
+import BackButton from './BackButton'
 
 // const rightArrow = '../assets/right_arrow_icon.png';
 const DismissKeyboard = ({ children }) => (
@@ -71,11 +72,19 @@ class Tasks extends React.Component {
           placeholder='Write some goals...'
         />
 
-
+      <View style={{flexDirection: 'row'}}>
+        <BackButton
+          styles={{marginTop: 13}}
+          goNext={this.props.goNext}
+          nextPage='home'/>
         <TouchableOpacity
           style={styles.addGoal}
           onPress={() => {
-            this.addGoal(this.state.inputGoalText);
+            if (this.state.inputGoalText !== '') {
+              this.addGoal(this.state.inputGoalText);
+            } else {
+              alert('Goal cannot be empty!')
+            }
             Keyboard.dismiss();
           }}
 
@@ -84,6 +93,8 @@ class Tasks extends React.Component {
             Add Goal
           </Text>
         </TouchableOpacity>
+        </View>
+
         {/* <Text>Tap to select</Text> */}
         <Text>Press and hold to remove</Text>
         <View style={{height:'45%'}}>
@@ -106,6 +117,7 @@ class Tasks extends React.Component {
         </ScrollView>
         </View>
         <NextButton
+          someSelected={true}
           styles={styles.nextButton}
           goNext={this.props.goNext}
           updateProp={this.props.updateProp}

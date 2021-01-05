@@ -7,6 +7,7 @@ import {
 import Goal from './Goal'
 import NextButton from './NextButton';
 import Checkbox from './Checkbox'
+import BackButton from './BackButton'
 import {Picker} from '@react-native-picker/picker';
 
 const DismissKeyboard = ({ children }) => (
@@ -37,8 +38,6 @@ var d = new Date(),
   h = d.getHours(),
   m = 15 * Math.floor(d.getMinutes()/15),
   stamp = h + ":" + (m === 0 ? "00" : m);
-
-  console.log(d);
 
 var pos = arr.indexOf(stamp),
   timelist = arr.slice(pos).concat(arr.slice(0,pos));
@@ -72,6 +71,12 @@ class SetReminder extends React.Component {
   }
 
   render() {
+    let someSelected = false;
+    for (let i = 0; i < this.state.days.length; i++) {
+      if (this.state.days[i].isSelected === true) {
+        someSelected = true;
+      }
+    }
       return (
         // <DismissKeyboard>
         <View style={styles.container}>
@@ -79,9 +84,14 @@ class SetReminder extends React.Component {
         <Text style={styles.header}> Schedule Notifications  </Text>
         <Text style={styles.header2}> To Do Selected Tasks</Text>
         </View>
+        <View style={{flexDirection: 'row'}}>
+        <BackButton
+          styles={{marginTop: 7}}
+          goNext={this.props.goNext}
+          nextPage='tasks'/>
         <View style={styles.pickerView}>
         <Picker
-          itemStyle={{height: 44}}
+          itemStyle={{height: 47, color: '#f7ba72', fontWeight: 'bold', }}
           prompt='Set a reminder to do my tasks at'
           selectedValue={this.state.currentTime}
           style={styles.picker}
@@ -91,7 +101,7 @@ class SetReminder extends React.Component {
             return (<Picker.Item label={time} value={time} key={index} />)})}
         </Picker>
         </View>
-
+        </View>
         <View style={{ }}>
           {this.state.days.map((day, index) => {
             return (
@@ -109,6 +119,7 @@ class SetReminder extends React.Component {
         </View>
 
         <NextButton
+          someSelected={someSelected}
           styles={styles.nextButton}
           goNext={this.props.goNext}
           nextPage='home'
@@ -145,7 +156,7 @@ const styles = StyleSheet.create({
   pickerView: {
     height: 50,
     width: '40%',
-    backgroundColor: '#f7ba72',
+    backgroundColor: 'white',
     borderWidth: 1,
     borderRadius: 20,
     borderColor: '#fff',

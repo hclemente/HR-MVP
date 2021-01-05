@@ -5,15 +5,30 @@ const NextButton = (props) => {
 
 
   const onSubmit = () => {
-    if (props.submit === 'goalsAndTasks'){
-      props.updateProp(props.goals, props.prop)
+    if (props.submit === 'goalsAndTasks') {
+      if (props.someSelected) {
+        props.updateProp(props.goals, props.prop)
+        props.goNext(props.nextPage)
+      } else {
+        alert('At least one task must be selected!')
+      }
 
     } else if (props.submit === 'reminder') {
-
+      if (props.someSelected) {
+        props.goNext(props.nextPage)
+      } else {
+        alert('At least one day must be selected!')
+      }
     } else if (props.submit === 'newEntry') {
-      props.addEntry(props.entry)
+      if (props.entry.note !== '') {
+        props.addEntry(props.entry)
+        props.goNext(props.nextPage)
+      } else {
+        alert('Notes cannot be empty!')
+      }
+
     }
-    props.goNext(props.nextPage)
+
   }
     return (
 

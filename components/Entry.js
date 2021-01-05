@@ -50,7 +50,7 @@ class Entry extends React.Component {
     super (props);
     this.state = {
       goals: this.props.goals,
-      currentGoal: this.props.goals[0],
+      currentGoal: this.props.goals[0].name,
       inputNote: '',
     }
     this.updateGoal = this.updateGoal.bind(this);
@@ -62,7 +62,7 @@ class Entry extends React.Component {
   }
   render() {
       return (
-        // <DismissKeyboard>
+        <DismissKeyboard>
         <View style={styles.container}>
         <View style={styles.timeStampContainer}>
           <Text style={styles.timeStamp}>{stamp}</Text>
@@ -111,7 +111,7 @@ class Entry extends React.Component {
           nextPage='home'
         />
         </View>
-        // </DismissKeyboard>
+        </DismissKeyboard>
       )
   }
 }
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   pickerView: {
     height: 50,
-    width: '65%',
+    width: '75%',
     backgroundColor: 'white',
     borderWidth: 1,
     borderRadius: 20,
